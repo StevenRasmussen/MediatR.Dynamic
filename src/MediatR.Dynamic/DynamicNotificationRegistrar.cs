@@ -21,7 +21,7 @@ namespace MediatR.Dynamic
             foreach (var handler in handlersToExecute)
             {
                 if (!cancellationToken.IsCancellationRequested)
-                    await handler.Handle(notification, cancellationToken);
+                    await handler.Handle(notification, cancellationToken).ConfigureAwait(false);
             }
         }
 
