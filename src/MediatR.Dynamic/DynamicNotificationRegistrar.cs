@@ -19,7 +19,10 @@ namespace MediatR.Dynamic
             }
 
             foreach (var handler in handlersToExecute)
-                await handler.Handle(notification, cancellationToken);
+            {
+                if (!cancellationToken.IsCancellationRequested)
+                    await handler.Handle(notification, cancellationToken);
+            }
         }
 
         private static readonly object _collectionLock = new object();
