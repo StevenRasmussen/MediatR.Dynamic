@@ -18,9 +18,12 @@
         <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
       </group>
     </dependencies>
+    <references>
+      <reference file="MediatR.Dynamic.dll" />
+    </references>
   </metadata>
   <files>
-    <file src="bin\$configuration$\netstandard2.0\MediatR.Dynamic.dll" target="lib/net462" />
-    <file src="bin\$configuration$\netstandard2.0\MediatR.Dynamic.dll" target="ref/net462" />
+    <file src="bin\$configuration$\netstandard2.0\MediatR.Dynamic.dll" target="lib/netstandard2.0" />
+    <file src="bin\$configuration$\netstandard2.0\MediatR.Dynamic.dll" target="ref/netstandard2.0" />
   </files>
 </package>
