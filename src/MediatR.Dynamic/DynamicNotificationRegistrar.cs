@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic
 {
-    internal class DynamicNotificationRegistrar<TNoficiation> : IDynamicNotificationRegistrar<TNoficiation>
+    internal sealed class DynamicNotificationRegistrar<TNoficiation> : IDynamicNotificationRegistrar<TNoficiation>
         where TNoficiation : INotification
     {
         private List<IDynamicNotificationHandler<TNoficiation>> _handlers = new List<IDynamicNotificationHandler<TNoficiation>>();
@@ -35,7 +35,7 @@ namespace MediatR.Dynamic
             }
         }
 
-        public void UnregisterHandler(IDynamicNotificationHandler<TNoficiation> handler)
+        public void UnRegisterHandler(IDynamicNotificationHandler<TNoficiation> handler)
         {
             lock (_collectionLock)
             {

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic
 {
-    interface IDynamicNotificationHandler<in TNotification> 
+    public interface IDynamicNotificationHandler<TNotification>
         where TNotification : INotification
     {
         Task Handle(TNotification notification, CancellationToken cancellationToken);
