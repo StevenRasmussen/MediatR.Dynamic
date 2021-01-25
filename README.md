@@ -1,5 +1,7 @@
+[![NuGet version (MediatR.Dynamic)](https://img.shields.io/nuget/v/MediatR.Dynamic.svg)](https://www.nuget.org/packages/MediatR.Dynamic/)
+
 # MediatR.Dynamic
-Extends the MediatR concept to include the ability to dynamically (runtime) add/remove `INotificationHandler`'s
+Extends the [MediatR](https://github.com/jbogard/MediatR) concept to include the ability to dynamically (runtime) add/remove `INotificationHandler`'s
 
 # Example
 ``` csharp
