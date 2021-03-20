@@ -9,6 +9,7 @@ using System.Diagnostics;
 #endif
 namespace MediatR.Dynamic
 {
+
 #if DEBUG
     public
 #else
