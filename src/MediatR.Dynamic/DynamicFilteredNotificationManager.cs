@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System;
 #if DEBUG
 using System.Diagnostics;
 #endif
@@ -12,20 +14,19 @@ namespace MediatR.Dynamic
 #else
     internal
 #endif
-    sealed class DynamicNotificationRegistrar<TNotification> : IDynamicNotificationManager<TNotification>
-        where TNotification : INotification
+      sealed class DynamicFilteredNotificationManager<TNotification> : IDynamicFilteredNotificationManager<TNotification>
+        where TNotification : IDynamicFilteredNotification
     {
-        // I only want to lock when RegisterHandler and UnRegisterHandler
-        private SemaphoreSlim _regLock = new SemaphoreSlim(1,1);
-        // removed the lock that was in place.
-        // it had 2 issues. 1, is not ascy friendly, 2. was static on the class.. so it was trying to lock on every notification type.
-        // private static readonly object _collectionLock = new object();
-        private List<IDynamicNotificationHandler<TNotification>> _handlers = new List<IDynamicNotificationHandler<TNotification>>();
+        private SemaphoreSlim _regLock = new SemaphoreSlim(1, 1);
+        private List<IDynamicFilteredNotificationHandler<TNotification>> _handlers = new List<IDynamicFilteredNotificationHandler<TNotification>>(); 
+
+        public Dictionary<string, string> Params { get; set; }
 
         public async Task Handle(TNotification notification, CancellationToken cancellationToken)
         {
+
             // check and wait if it's in a registration process 
-            while(this._regLock.CurrentCount == 0)
+            while (this._regLock.CurrentCount == 0)
             {
 #if DEBUG
                 // for unit testing
@@ -34,21 +35,36 @@ namespace MediatR.Dynamic
                 await Task.Delay(1, cancellationToken);
             }
             // Copy the collection so that the collection is static (not modified)
-            List<IDynamicNotificationHandler<TNotification>> handlersToExecute = new List<IDynamicNotificationHandler<TNotification>>(this._handlers);
+            List<IDynamicFilteredNotificationHandler<TNotification>> handlersToExecute; 
+            if(notification.Params != null)
+            {
+                handlersToExecute = new List<IDynamicFilteredNotificationHandler<TNotification>>(
+                        this._handlers.Where(
+                            item => item.Params != null &&
+                                 (notification.Params.All(f =>
+                                    (string)(item.Params[f.Key]) == f.Value))));
+            }
+            else
+            {
+                handlersToExecute =
+                    new List<IDynamicFilteredNotificationHandler<TNotification>>(this._handlers);
+            }
+
             foreach (var handler in handlersToExecute)
             {
                 if (!cancellationToken.IsCancellationRequested)
-                { 
+                {
+                    // add try catch in case object was disposed before executed.
                     try
                     {
                         await handler.Handle(notification, cancellationToken).ConfigureAwait(false);
                     }
                     catch { }
-                } 
+                }
             }
         }
 
-        public void RegisterHandler(IDynamicNotificationHandler<TNotification> handler)
+        public void RegisterHandler(IDynamicFilteredNotificationHandler<TNotification> handler)
         {
             _regLock.Wait();
             try
@@ -62,10 +78,10 @@ namespace MediatR.Dynamic
             finally
             {
                 _regLock.Release();
-            } 
+            }
         }
 
-        public void UnRegisterHandler(IDynamicNotificationHandler<TNotification> handler)
+        public void UnRegisterHandler(IDynamicFilteredNotificationHandler<TNotification> handler)
         {
             _regLock.Wait();
             try

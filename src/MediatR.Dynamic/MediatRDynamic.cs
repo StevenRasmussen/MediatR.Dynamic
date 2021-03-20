@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace MediatR.Dynamic
 {
@@ -11,15 +12,22 @@ namespace MediatR.Dynamic
         public static void AddMediatRDynamic(this IServiceCollection services)
         {
             // Register the DynamicNotificationRegistrar as an INotificationHandler<>
-            var existing = services.FirstOrDefault(x => x.ServiceType == typeof(IDynamicNotificationRegistrar<>));
-            if (existing == null)
-                services.AddSingleton(typeof(IDynamicNotificationRegistrar<>), typeof(DynamicNotificationRegistrar<>));
+            services.TryAddSingleton(typeof(IDynamicNotificationManager<>), typeof(DynamicNotificationRegistrar<>)); 
+            services.TryAddSingleton(typeof(IDynamicFilteredNotificationManager<>), typeof(DynamicFilteredNotificationManager<>));
         }
 
-        public static void AddDynamicNotificationHandler<T>(this IServiceCollection services)
-            where T : INotification
+        public static void AddDynamicNotificationHandler<TNotification>(this IServiceCollection services)
+            where TNotification : INotification
         {
-            services.AddSingleton<INotificationHandler<T>>(sp => sp.GetRequiredService<IDynamicNotificationRegistrar<T>>());
+            // make sure someone doesnt try an register the same object more than once
+            services.TryAddSingleton<INotificationHandler<TNotification>>(sp => sp.GetRequiredService<IDynamicNotificationManager<TNotification>>());
+        }
+
+        public static void AddDynamicFilteredNotificationHandler<TFilteredNotification>(this IServiceCollection services)
+             where TFilteredNotification : IDynamicFilteredNotification
+        {
+            // make sure someone doesnt try an register the same object more than once
+            services.TryAddSingleton<INotificationHandler<TFilteredNotification>>(sp => sp.GetRequiredService<IDynamicFilteredNotificationHandler<TFilteredNotification>>());
         }
     }
 }
