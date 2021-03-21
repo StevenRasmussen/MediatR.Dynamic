@@ -16,18 +16,18 @@ namespace MediatR.Dynamic
             services.TryAddSingleton(typeof(IDynamicFilteredNotificationManager<>), typeof(DynamicFilteredNotificationManager<>));
         }
 
-        public static void AddDynamicNotificationHandler<TNotification>(this IServiceCollection services)
+        public static void AddDynamicNotificationHandlerManager<TNotification>(this IServiceCollection services)
             where TNotification : INotification
         {
             // make sure someone doesnt try an register the same object more than once
             services.TryAddSingleton<INotificationHandler<TNotification>>(sp => sp.GetRequiredService<IDynamicNotificationManager<TNotification>>());
         }
 
-        public static void AddDynamicFilteredNotificationHandler<TFilteredNotification>(this IServiceCollection services)
+        public static void AddDynamicFilteredNotificationHandlerManager<TFilteredNotification>(this IServiceCollection services)
              where TFilteredNotification : IDynamicFilteredNotification
         {
             // make sure someone doesnt try an register the same object more than once
-            services.TryAddSingleton<INotificationHandler<TFilteredNotification>>(sp => sp.GetRequiredService<IDynamicFilteredNotificationHandler<TFilteredNotification>>());
+            services.TryAddSingleton<INotificationHandler<TFilteredNotification>>(sp => sp.GetRequiredService<IDynamicFilteredNotificationManager<TFilteredNotification>>());
         }
     }
 }

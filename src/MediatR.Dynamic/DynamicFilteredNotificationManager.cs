@@ -22,9 +22,7 @@ namespace MediatR.Dynamic
         where TNotification : IDynamicFilteredNotification
     {
         private SemaphoreSlim _regLock = new SemaphoreSlim(1, 1);
-        private List<IDynamicFilteredNotificationHandler<TNotification>> _handlers = new List<IDynamicFilteredNotificationHandler<TNotification>>(); 
-
-        public Dictionary<string, string> Params { get; set; }
+        private List<IDynamicFilteredNotificationHandler<TNotification>> _handlers = new List<IDynamicFilteredNotificationHandler<TNotification>>();
 
         public async Task Handle(TNotification notification, CancellationToken cancellationToken)
         {
@@ -47,7 +45,7 @@ namespace MediatR.Dynamic
                         item => (item.Params != null &&
                              (notification.Params.All(f => item.Params.ContainsKey(f.Key) &&
                                         (item.Params[f.Key]) == f.Value)))
-                                || (item.Params != null && item.Params.ContainsKey("ALL"))).Distinct()
+                                || (item.Params != null && item.Params.ContainsKey("ALL"))) 
                     );
             }
             else
@@ -72,15 +70,35 @@ namespace MediatR.Dynamic
 
         public void RegisterHandler(IDynamicFilteredNotificationHandler<TNotification> handler)
         {
+#if DEBUG
+            if(handler == null)
+            {
+                return;
+            }
+#endif
             _regLock.Wait();
             try
             {
+#if DEBUG
+                if (handler == null)
+                {
+                    return;
+                }
+#endif
                 if (!this._handlers.Contains(handler))
                 {
                     this._handlers.Add(handler);
                 }
             }
-            catch { }
+#if DEBUG
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error RegisterHandler: {ex.Message}");
+            }
+#else
+            catch {}
+#endif
+
             finally
             {
                 _regLock.Release();
@@ -96,8 +114,22 @@ namespace MediatR.Dynamic
                 {
                     this._handlers.Remove(handler);
                 }
+#if DEBUG
+                else
+                {
+
+                }
+#endif
+
             }
-            catch { }
+#if DEBUG
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error UnRegisterHandler: {ex.Message}");
+            }
+#else
+            catch {}
+#endif
             finally
             {
                 _regLock.Release();

@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic
 {
-    public abstract class BaseDynamicNotificationManager<TNotification> 
+    public abstract class BaseDynamicNotificationHandler<TNotification> 
         : IDynamicNotificationHandler<TNotification>, IDisposable
             where TNotification : INotification
     { 
         private readonly IDynamicNotificationManager<TNotification> _manager;
-        public BaseDynamicNotificationManager(IDynamicNotificationManager<TNotification> registrar)
+        public BaseDynamicNotificationHandler(IDynamicNotificationManager<TNotification> registrar)
         {
             _manager = registrar; 
             _manager.RegisterHandler(this);
         }
-        ~BaseDynamicNotificationManager()
+        ~BaseDynamicNotificationHandler()
         {
             _manager.UnRegisterHandler(this);
         }

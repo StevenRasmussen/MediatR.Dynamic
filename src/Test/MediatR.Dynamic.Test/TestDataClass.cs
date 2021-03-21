@@ -45,7 +45,7 @@ namespace MediatR.Dynamic.Test
             }
         }
 
-        public class TestObjectNotificationHandler2 : BaseDynamicNotificationManager<TestObject>, IDisposable
+        public class TestObjectNotificationHandler2 : BaseDynamicNotificationHandler<TestObject>, IDisposable
 
         {
 
@@ -186,7 +186,7 @@ namespace MediatR.Dynamic.Test
                 _registrar.UnRegisterHandler(this);
             }
         }
-        public class TestObject2NotificationHandler3 : BaseDynamicFilteredNotificationManager<TestObject2> 
+        public class TestObject2NotificationHandler3 : BaseDynamicFilteredNotificationHandler<TestObject2> 
         { 
             public Guid Id
             {
@@ -212,7 +212,7 @@ namespace MediatR.Dynamic.Test
             }
              
         }
-        public class TestObject2NotificationHandlerAll : BaseDynamicFilteredNotificationManager<TestObject2> 
+        public class TestObject2NotificationHandlerAll : BaseDynamicFilteredNotificationHandler<TestObject2> 
         { 
             public Guid Id
             {

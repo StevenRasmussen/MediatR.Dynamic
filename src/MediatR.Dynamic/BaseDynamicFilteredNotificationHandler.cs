@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic
 {
-    public abstract class BaseDynamicFilteredNotificationManager<TFilteredNotification> 
+    public abstract class BaseDynamicFilteredNotificationHandler<TFilteredNotification> 
         : IDynamicFilteredNotificationHandler<TFilteredNotification>, IDisposable
                 where TFilteredNotification : IDynamicFilteredNotification
     {
         public abstract Dictionary<string, string> Params { get; set; }
         private readonly IDynamicFilteredNotificationManager<TFilteredNotification> _manager;
-        public BaseDynamicFilteredNotificationManager(IDynamicFilteredNotificationManager<TFilteredNotification> manager)
+        public BaseDynamicFilteredNotificationHandler(IDynamicFilteredNotificationManager<TFilteredNotification> manager)
         {
             _manager = manager; 
             _manager.RegisterHandler(this);
         }
-        ~BaseDynamicFilteredNotificationManager()
+        ~BaseDynamicFilteredNotificationHandler()
         {
             _manager.UnRegisterHandler(this);
         }

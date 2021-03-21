@@ -8,7 +8,7 @@ namespace MediatR.Dynamic
     /// interface for dynamic handlers that have the ability to filter the payload before sending to all the listeners
     /// </summary>
     /// <typeparam name="TFilteredNotification"></typeparam>
-    public interface IDynamicFilteredNotificationHandler<TFilteredNotification> : INotificationHandler<TFilteredNotification>
+    public interface IDynamicFilteredNotificationHandler<TFilteredNotification> 
         where TFilteredNotification : IDynamicFilteredNotification  
     {
         /// <summary>

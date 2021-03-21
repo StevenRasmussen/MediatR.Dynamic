@@ -9,7 +9,7 @@ namespace MediatR.Dynamic
     /// </summary>
     /// <typeparam name="TFilteredNotification"></typeparam>
     public interface IDynamicFilteredNotificationManager<TFilteredNotification>
-            : IDynamicFilteredNotificationHandler<TFilteredNotification>
+            : INotificationHandler<TFilteredNotification>
         where TFilteredNotification : IDynamicFilteredNotification
     {
         void RegisterHandler(IDynamicFilteredNotificationHandler<TFilteredNotification> handler);
