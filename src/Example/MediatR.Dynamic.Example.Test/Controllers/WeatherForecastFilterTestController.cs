@@ -11,15 +11,24 @@ namespace MediatR.Dynamic.Example.Test.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastFilterTestController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        }; 
+        };
+
+        private static readonly Tuple<string, string>[] Location = new[]
+        {
+            new Tuple<string,string>("US","PA"),
+            new Tuple<string,string>("US","NY"),
+            new Tuple<string,string>("UK","York"),
+            new Tuple<string,string>("UK","London"),
+        };
+
         private IMediator _Mediator { get; set; }
         private IServiceProvider _Provider { get; set; }
-        public WeatherForecastController(IMediator mediator, IServiceProvider provider)
+        public WeatherForecastFilterTestController(IMediator mediator, IServiceProvider provider)
         {
             this._Provider = provider;
             this._Mediator = mediator;

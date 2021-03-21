@@ -49,13 +49,15 @@ namespace MediatR.Dynamic.Test
         TestObject2NotificationHandler1 _Handler2_1;
         TestObject2NotificationHandler2 _Handler2_2;
         TestObject2NotificationHandler3 _Handler2_3;
-
+        TestObject2NotificationHandlerAll _Handler2_ALL;
         [TestMethod]
         public async Task DynamicListTest()
         {
             _Handler2_1 = new TestObject2NotificationHandler1(_TestHandler2);
             _Handler2_2 = new TestObject2NotificationHandler2(_TestHandler2);
             _Handler2_3 = new TestObject2NotificationHandler3(_TestHandler2);
+            _Handler2_ALL = new TestObject2NotificationHandlerAll(_TestHandler2);
+
             // param filter test 1
             Dictionary<string, string> _params1 = new Dictionary<string, string>(new List<KeyValuePair<string, string>>() {
                 new KeyValuePair<string, string>("Id", "21000000-0000-0000-0000-000000000000")

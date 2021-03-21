@@ -9,7 +9,10 @@ using System.Diagnostics;
 #endif
 namespace MediatR.Dynamic
 {
-
+    /// <summary>
+    /// Dynamic notification Manager
+    /// </summary>
+    /// <typeparam name="TNotification"></typeparam>
 #if DEBUG
     public
 #else
@@ -40,10 +43,12 @@ namespace MediatR.Dynamic
             if(notification.Params != null)
             {
                 handlersToExecute = new List<IDynamicFilteredNotificationHandler<TNotification>>(
-                        this._handlers.Where(
-                            item => item.Params != null &&
-                                 (notification.Params.All(f =>
-                                    (string)(item.Params[f.Key]) == f.Value))));
+                    this._handlers.Where(
+                        item => (item.Params != null &&
+                             (notification.Params.All(f => item.Params.ContainsKey(f.Key) &&
+                                        (item.Params[f.Key]) == f.Value)))
+                                || (item.Params != null && item.Params.ContainsKey("ALL"))).Distinct()
+                    );
             }
             else
             {

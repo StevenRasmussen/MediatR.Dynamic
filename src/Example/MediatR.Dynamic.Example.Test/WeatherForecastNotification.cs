@@ -2,7 +2,7 @@ using System;
 
 namespace MediatR.Dynamic.Example.Test
 {
-    public class WeatherForecastRequest2 : INotification
+    public class WeatherForecastNotification : INotification
     {
         public DateTime Date { get; set; }
 

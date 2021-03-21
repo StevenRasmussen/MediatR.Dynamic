@@ -28,8 +28,8 @@ namespace MediatR.Dynamic.Example.Test
             services.AddControllers();
             services.AddMediatRDynamic();
 
-            services.AddDynamicNotificationHandler<WeatherForecastRequest>();
-            services.AddDynamicNotificationHandler<WeatherForecastRequest2>(); 
+            services.AddDynamicNotificationHandler<WeatherForecastNotification>();
+            services.AddDynamicNotificationHandler<WeatherForecastNotification2>(); 
 
             services.AddSingleton<WeatherForcastNotHandler>();
             services.AddSingleton<WeatherForcast2NotHandler>();

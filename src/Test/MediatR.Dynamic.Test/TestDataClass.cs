@@ -228,6 +228,40 @@ namespace MediatR.Dynamic.Test
             }
         }
 
+        public class TestObject2NotificationHandlerAll : IDynamicFilteredNotificationHandler<TestObject2>
+        {
+            private readonly IDynamicFilteredNotificationManager<TestObject2> _registrar;
+            public Guid Id
+            {
+                get
+                {
+                    return Guid.Parse("24000000-0000-0000-0000-000000000000"); // {54F3C1CE-03E2-4BC2-94B6-B75AC77F02F4}
+                }
+            }
+
+            public Dictionary<string, string> Params { get; set; }
+                = new Dictionary<string, string>(
+                    new List<KeyValuePair<string, string>>()
+                        { new KeyValuePair<string, string>("ALL","")  });
+
+            public TestObject2NotificationHandlerAll(IDynamicFilteredNotificationManager<TestObject2> registrar)
+            {
+                _registrar = registrar;
+
+                // Dynamically add this class as a handler for the notification type 'YourNotificationTypeHere'
+                _registrar.RegisterHandler(this);
+            }
+            public async Task Handle(TestObject2 notification, CancellationToken cancellationToken)
+            {
+                Debug.WriteLine($"{DateTime.Now}: {notification.Id} fired for {this.Id}, Name: {notification.Name}");
+            }
+
+            ~TestObject2NotificationHandlerAll()
+            {
+                // Un-register this class as an event handler for the notification type
+                _registrar.UnRegisterHandler(this);
+            }
+        }
         #endregion 
     }
 }

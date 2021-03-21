@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic.Example.Test
 {
-    public class WeatherForcast2NotHandler2 : IDynamicNotificationHandler<WeatherForecastRequest2>
+    public class WeatherForcast2NotHandler2 : IDynamicNotificationHandler<WeatherForecastNotification2>
     {
 
-        private readonly IDynamicNotificationManager<WeatherForecastRequest2> _registrar;
-        public WeatherForcast2NotHandler2(IDynamicNotificationManager<WeatherForecastRequest2> registrar)
+        private readonly IDynamicNotificationManager<WeatherForecastNotification2> _registrar;
+        public WeatherForcast2NotHandler2(IDynamicNotificationManager<WeatherForecastNotification2> registrar)
         {
 
             _registrar = registrar;
@@ -19,7 +19,7 @@ namespace MediatR.Dynamic.Example.Test
             _registrar.RegisterHandler(this);
         }
 
-        public async Task Handle(WeatherForecastRequest2 notification, CancellationToken cancellationToken)
+        public async Task Handle(WeatherForecastNotification2 notification, CancellationToken cancellationToken)
         {
             await Task.Delay(10);
         }
