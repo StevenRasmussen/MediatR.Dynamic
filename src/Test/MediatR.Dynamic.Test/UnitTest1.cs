@@ -122,9 +122,18 @@ namespace MediatR.Dynamic.Test
                 Name = "_params5, All handlers",
                 Params = _params5
             }, default);
-        }
 
+            // remove 2300, and 2400
+            _Handler2_3.Dispose();
+            _Handler2_ALL.Dispose();
 
+            await _TestHandler2.Handle(new TestObject2
+            {
+                Id = Guid.NewGuid(),
+                Name = "_params5, All handlers",
+                Params = _params5
+            }, default);
+        } 
         #endregion
 
     }

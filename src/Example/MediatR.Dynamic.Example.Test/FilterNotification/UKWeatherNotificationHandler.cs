@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace MediatR.Dynamic.Example.Test.FilterNotification
 {
-    public class USWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
+    public class UKWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
     {
         public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>(
             new List<KeyValuePair<string, string>>() {
-                new KeyValuePair<string, string>("CTRY","US")
+                new KeyValuePair<string, string>("CTRY","UK")
             });
  
 
@@ -21,12 +21,12 @@ namespace MediatR.Dynamic.Example.Test.FilterNotification
         }
     }
 
-    public class USPAWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
+    public class UKLDNWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
     {
         public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>(
             new List<KeyValuePair<string, string>>() {
-                new KeyValuePair<string, string>("CTRY","US"),
-                new KeyValuePair<string, string>("State","PA")
+                new KeyValuePair<string, string>("CTRY","UK"),
+                new KeyValuePair<string, string>("State","London")
             });
 
 
@@ -36,12 +36,12 @@ namespace MediatR.Dynamic.Example.Test.FilterNotification
         }
     }
 
-    public class USNYWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
+    public class UKYorkWeatherNotificationHandler : IDynamicFilteredNotificationHandler<WeatherForcastFilterNot>
     {
         public Dictionary<string, string> Params { get; set; } = new Dictionary<string, string>(
             new List<KeyValuePair<string, string>>() {
-                new KeyValuePair<string, string>("CTRY","US"),
-                new KeyValuePair<string, string>("State","NY")
+                new KeyValuePair<string, string>("CTRY","UK"),
+                new KeyValuePair<string, string>("State","York")
             });
 
 

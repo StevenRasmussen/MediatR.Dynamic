@@ -7,13 +7,13 @@ namespace MediatR.Dynamic
     /// <summary>
     /// use to Manage Dynamic notifications with filters
     /// </summary>
-    /// <typeparam name="TNotification"></typeparam>
-    public interface IDynamicFilteredNotificationManager<TNotification>
-            : IDynamicFilteredNotificationHandler<TNotification>
-        where TNotification : IDynamicFilteredNotification
+    /// <typeparam name="TFilteredNotification"></typeparam>
+    public interface IDynamicFilteredNotificationManager<TFilteredNotification>
+            : IDynamicFilteredNotificationHandler<TFilteredNotification>
+        where TFilteredNotification : IDynamicFilteredNotification
     {
-        void RegisterHandler(IDynamicFilteredNotificationHandler<TNotification> handler);
+        void RegisterHandler(IDynamicFilteredNotificationHandler<TFilteredNotification> handler);
 
-        void UnRegisterHandler(IDynamicFilteredNotificationHandler<TNotification> handler);
+        void UnRegisterHandler(IDynamicFilteredNotificationHandler<TFilteredNotification> handler);
     }
 }
